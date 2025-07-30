@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Medicate"
 include(":app")
+include(":app:data")
