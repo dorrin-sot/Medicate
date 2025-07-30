@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = Profile.TABLE_NAME)
 data class Profile(
-  @PrimaryKey val username: String,
+  @PrimaryKey(autoGenerate = true) val id: Long,
+  val username: String,
   val displayName: String?,
 ) {
   private var _drugs = mutableListOf<Drug>()

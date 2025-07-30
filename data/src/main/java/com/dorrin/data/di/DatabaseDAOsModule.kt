@@ -1,26 +1,26 @@
 package com.dorrin.data.di
 
-import android.content.Context
-import androidx.room.Room
 import com.dorrin.data.MedicateDatabase
+import com.dorrin.data.dao.DrugDao
+import com.dorrin.data.dao.ProfileDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DatabaseDAOsModule {
+  @Inject
+  private lateinit var db: Lazy<MedicateDatabase>
+
   @Provides
   @Singleton
-  internal fun providesDatabase(@ApplicationContext context: Context): MedicateDatabase =
-    Room.databaseBuilder(
-      context,
-      MedicateDatabase::class.java,
-      "medicate-db"
-    )
-      .fallbackToDestructiveMigration(dropAllTables = true)
-      .build()
+  fun providesDrugDao(): DrugDao = db.value.drugDao()
+
+  @Provides
+  @Singleton
+  fun providesProfileDao(): ProfileDao = db.value.profileDao()
 }

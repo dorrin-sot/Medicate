@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DatabaseModule {
+internal abstract class DatabaseModule {
   @Provides
   @Singleton
   internal fun providesDatabase(@ApplicationContext context: Context): MedicateDatabase =
