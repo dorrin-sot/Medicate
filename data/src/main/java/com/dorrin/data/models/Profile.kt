@@ -19,6 +19,11 @@ data class Profile(
 
   fun updateDrug(index: Int, drug: Drug) = _drugs.set(index, drug)
 
+  internal fun addAllDrugs(drugs: List<Drug>) {
+    _drugs.clear()
+    _drugs.addAll(drugs)
+  }
+
   companion object {
     const val TABLE_NAME = "profiles"
   }
