@@ -3,6 +3,7 @@ package com.dorrin.data.di
 import com.dorrin.data.MedicateDatabase
 import com.dorrin.data.dao.DrugDao
 import com.dorrin.data.dao.ProfileDao
+import com.dorrin.data.dao.ProfileDrugsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DatabaseDAOsModule {
+internal abstract class DatabaseDAOsModule {
   @Inject
   private lateinit var db: Lazy<MedicateDatabase>
 
@@ -23,4 +24,8 @@ abstract class DatabaseDAOsModule {
   @Provides
   @Singleton
   fun providesProfileDao(): ProfileDao = db.value.profileDao()
+
+  @Provides
+  @Singleton
+  fun providesProfileDrugsDao(): ProfileDrugsDao = db.value.profileDrugsDao()
 }

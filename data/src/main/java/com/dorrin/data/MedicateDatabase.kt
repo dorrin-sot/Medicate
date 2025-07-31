@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.dorrin.data.dao.DrugDao
 import com.dorrin.data.dao.ProfileDao
+import com.dorrin.data.dao.ProfileDrugsDao
 import com.dorrin.data.models.Drug
 import com.dorrin.data.models.Profile
 import com.dorrin.data.models.profile_drug.DrugProfilesRelation
@@ -21,4 +22,5 @@ import com.dorrin.data.models.profile_drug.ProfileDrugsRelation
 internal abstract class MedicateDatabase : RoomDatabase() {
   abstract fun drugDao(): DrugDao
   abstract fun profileDao(): ProfileDao
+  abstract fun profileDrugsDao(): ProfileDrugsDao
 }

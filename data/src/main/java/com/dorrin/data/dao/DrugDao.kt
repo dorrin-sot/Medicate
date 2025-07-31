@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.dorrin.data.dao.generics.GenericDao
 import com.dorrin.data.models.Drug
 
 @Dao

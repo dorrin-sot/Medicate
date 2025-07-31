@@ -16,7 +16,10 @@ data class ProfileDrugsRelation(
     associateBy = Junction(ProfileDrugCrossRef::class)
   )
   val drugs: List<Drug>
-  ) {
+) : GenericRelation<Profile, Drug>(
+  left = profile,
+  rights = drugs
+) {
   companion object {
     const val TABLE_NAME = "profile-drugs-ref"
   }
