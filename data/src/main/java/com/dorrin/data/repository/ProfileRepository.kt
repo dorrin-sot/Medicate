@@ -2,6 +2,7 @@ package com.dorrin.data.repository
 
 import androidx.lifecycle.Observer
 import com.dorrin.data.dao.ProfileDao
+import com.dorrin.data.dao.ProfileDrugsDao
 import com.dorrin.data.models.Profile
 import dagger.Lazy
 import javax.inject.Inject
@@ -9,19 +10,23 @@ import javax.inject.Inject
 class ProfileRepository : GenericRepository<Profile> {
   @Inject
   internal lateinit var profileDaoLazy: Lazy<ProfileDao>
-
   private val profileDao get() = profileDaoLazy.get()
+
+  @Inject
+  internal lateinit var profileDrugsDaoLazy: Lazy<ProfileDrugsDao>
+  private val profileDrugsDao get() = profileDrugsDaoLazy.get()
 
   private var _profiles = listOf<Profile>()
   val profiles: List<Profile> get() = _profiles
 
   private var observers = mutableListOf<Observer<List<Profile>>>()
 
-  override fun getAll(): List<Profile> = profileDao.getAll() // todo get drugs too
+  override fun getAll(): List<Profile> =
+    profileDao.getAll().apply { forEach { getProfileDrugs(it) } }
 
   override fun getOneById(id: Long): Profile {
     val profile = profileDao.getOneById(id)
-    // todo get drugs too
+    getProfileDrugs(profile)
     return profile
   }
 
@@ -66,5 +71,11 @@ class ProfileRepository : GenericRepository<Profile> {
   override fun onChanged(value: List<Profile>) {
     _profiles = value
     observers.forEach { it.onChanged(this.profiles) }
+  }
+
+  private fun getProfileDrugs(profile: Profile) {
+    profileDrugsDao.getAllByLeftId(profile.id).firstOrNull()?.drugs?.let { drugs ->
+      profile.addAllDrugs(drugs)
+    }
   }
 }
